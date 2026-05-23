@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
 import tensorflow as tf
 import numpy as np
+import os
 
 app = Flask(__name__)
-interpreter = tf.lite.Interpreter(model_path="../models/behavior_model.tflite")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+interpreter = tf.lite.Interpreter(model_path=os.path.join(BASE_DIR, "models", "behavior_model.tflite"))
 interpreter.allocate_tensors()
 
 MEAN = [200.5806, 0.4057, 450.4667, 179.2505, 0.0493]
