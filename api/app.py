@@ -11,12 +11,12 @@ from datetime import datetime, timezone
 from typing import Optional
 
 import numpy as np
-import tensorflow as tf
 
 from fastapi import FastAPI, Header, HTTPException, Request, Depends, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
+from tflite_runtime.interpreter import Interpreter
 
 from rich.console import Console
 from rich.panel import Panel
@@ -33,7 +33,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 MODEL_PATH = os.path.join(BASE_DIR, "models", "behavior_model.tflite")
-interpreter = tf.lite.Interpreter(model_path=MODEL_PATH)
+interpreter = Interpreter(model_path=MODEL_PATH)
 interpreter.allocate_tensors()
 INPUT_DETAILS  = interpreter.get_input_details()
 OUTPUT_DETAILS = interpreter.get_output_details()
